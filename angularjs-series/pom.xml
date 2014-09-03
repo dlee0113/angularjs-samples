@@ -8,8 +8,8 @@
 	<modules>
 		<module>angularjs-part1</module>
 		<module>angularjs-part2</module>
-	</modules>
-
+                <module>angularjs-part3</module>
+        </modules>
 
 	<dependencyManagement>
 

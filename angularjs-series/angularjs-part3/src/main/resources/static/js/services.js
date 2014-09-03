@@ -16,7 +16,15 @@ angular.module('myApp.services',[])
 	return {
 		getAll : function(){
 			return Todos.getList().$object;
-		}
+		},
+                
+                create : function(todo){
+                    return Todos.post(todo);
+                },
+                
+                update : function(todo){
+                    return todo.put();
+                }
 	}
 })
 
