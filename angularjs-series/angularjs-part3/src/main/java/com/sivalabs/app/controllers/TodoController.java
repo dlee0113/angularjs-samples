@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sivalabs.app.entities.Todo;
 import com.sivalabs.app.repos.TodoRepository;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/todos")
@@ -26,8 +27,21 @@ public class TodoController {
     public List<Todo> persons() {
         return todoRepository.findAll();
     }
+    @RequestMapping(value="/{id}", method=RequestMethod.GET)
+    public Todo get(@PathVariable("id") Integer id) {
+	return this.todoRepository.findOne(id);
+    }
     @RequestMapping(value="", method=RequestMethod.POST)
     public Todo create(@RequestBody Todo todo) {
-		return this.todoRepository.save(todo);
-	}
+	return this.todoRepository.save(todo);
+   }
+    @RequestMapping(value="/{id}", method=RequestMethod.PUT)
+    public Todo update(@RequestBody Todo todo) {
+	return this.todoRepository.save(todo);
+    }
+    
+    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    public void delete(@PathVariable("id") Integer id) {
+	this.todoRepository.delete(id);
+    }
 }
