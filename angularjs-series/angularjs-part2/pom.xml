@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
 
     <name>angularjs-part2</name>
-	<description>Demonstrates using AngularJS modules, controllers, services, $resource, ui-router</description>
+	<description>Demonstrates using AngularJS modules, controllers, services, $http, ngRoute</description>
 	
     <parent>
         <groupId>org.springframework.boot</groupId>

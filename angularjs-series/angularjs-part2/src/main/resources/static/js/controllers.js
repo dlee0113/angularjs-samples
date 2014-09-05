@@ -1,14 +1,22 @@
 var myApp = angular.module('myApp');
 
-myApp.controller('HomeController', [ '$scope', '$resource', function ($scope, $resource) {
+myApp.controller('HomeController', [ '$scope', '$http', function ($scope, $http) {
 	$scope.hello = 'Im Home';
 }]);
 
 
-myApp.controller('ContactsController', [ '$scope', 'PersonService', function ($scope, PersonService) {
-	$scope.contacts = PersonService.query();	
-}]);
+myApp.controller('ContactController', [ '$scope', 'ContactService', function ($scope, ContactService) {
+	
+	ContactService.getContacts().then(function(data) {
+		$scope.contacts = data;
+	});
+	
+	}
+]);
 
-myApp.controller('TodosController', [ '$scope', 'TodoService', function ($scope, TodoService) {
-	$scope.todos = TodoService.query();	
+myApp.controller('TodoController', [ '$scope', 'TodoService', function ($scope, TodoService) {
+	TodoService.getTodos().then(function(data) {
+		$scope.todos = data;
+	});
+	
 }]);

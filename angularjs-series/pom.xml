@@ -9,6 +9,8 @@
 		<module>angularjs-part1</module>
 		<module>angularjs-part2</module>
 		<module>angularjs-part3</module>
+		<module>angularjs-part4</module>
+		
 	</modules>
 
 	<dependencyManagement>

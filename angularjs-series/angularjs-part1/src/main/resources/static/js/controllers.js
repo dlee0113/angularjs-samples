@@ -1,22 +1,39 @@
 var myApp = angular.module('myApp');
 
-myApp.controller('HomeController', [ '$scope', '$http', function ($scope, $http) {
-	$scope.hello = 'Im Home';
-}]);
-
-
-myApp.controller('ContactsController', [ '$scope', 'PersonService', function ($scope, PersonService) {
+myApp.controller('TodoController', [ '$scope', '$http', function ($scope, $http) {
 	
-	PersonService.getContacts().then(function(data) {
-		$scope.contacts = data;
-	});
+	$scope.newTodo = {};
 	
-	}
-]);
-
-myApp.controller('TodosController', [ '$scope', 'TodoService', function ($scope, TodoService) {
-	TodoService.getTodos().then(function(data) {
-		$scope.todos = data;
-	});
+	$scope.loadTodos = function(){
+		$http.get('todos').
+		success(function(data, status, headers, config) {
+			$scope.todos = data;
+		 })
+		.error(function(data, status, headers, config) {
+		      alert('Error loading Todos');
+		});
+	};
 	
+	$scope.addTodo = function(){
+		$http.post('todos',$scope.newTodo).
+		success(function(data, status, headers, config) {
+			$scope.newTodo = {};
+			$scope.loadTodos();
+		 })
+		.error(function(data, status, headers, config) {
+		      alert('Error saving Todo');
+		});
+	};
+	
+	$scope.deleteTodo = function(todo){
+		$http.delete('todos/'+todo.id).
+		success(function(data, status, headers, config) {
+			$scope.loadTodos();
+		 })
+		.error(function(data, status, headers, config) {
+		      alert('Error deleting Todo');
+		});
+	};
+	
+	$scope.loadTodos();
 }]);

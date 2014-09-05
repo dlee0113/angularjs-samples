@@ -1,53 +1,38 @@
 
-var myApp = angular.module('myApp',['ngResource','ui.router','myApp.services']);
+var myApp = angular.module('myApp',['ngRoute','myApp.services']);
 
-myApp.config(function($stateProvider, $urlRouterProvider) {
-	
-	$urlRouterProvider.when('', '/home');
-	$urlRouterProvider.otherwise('/home');
-	
-	$stateProvider
-	.state('home', {
-		url: '/home',
-		templateUrl: 'templates/home.html',
-        controller: 'HomeController'
-	})
-	.state('contacts', {
-		url: '/contacts',
-		templateUrl: 'templates/contacts.html',
-        controller: 'ContactsController'
-	})	
-	.state('todos', {
-		url: '/todos',
-		templateUrl: 'templates/todos.html',
-        controller: 'TodosController'
-	})
-	.state('todos.create', {
-		url: '/create',
-		templateUrl: 'templates/new_todo.html',
-		controller: function($scope, $stateParams, $resource) {
-			$scope.newTodo = {};
-			
-			$scope.createTodo = function(newTodoObj){
-				console.log('new Todo: '+newTodoObj.description);
-				$resource('todos').save(newTodoObj, function(data){
-					alert('Saved successfully');
-				},function(data){
-					alert('Failed to save Todo');
-				});
-			}
-		}
-	})	
-		
-});
+myApp.config(['$routeProvider','$locationProvider',
+        function($routeProvider, $locationProvider) {
+          $routeProvider
+          	.when('/home', {
+              templateUrl: 'templates/home.html',
+              controller: 'HomeController'
+          	}).
+            when('/contacts', {
+              templateUrl: 'templates/contacts.html',
+              controller: 'ContactController'
+            }).
+            when('/todos', {
+            	templateUrl: 'templates/todos.html',
+                controller: 'TodoController'
+            })
+           
+            .otherwise({
+            	redirectTo: 'home'
+            });
+          
+          //$locationProvider.html5Mode(true); //Remove the '#' from URL.
+}]);
+
 
 myApp.run(['$rootScope', '$location', function ($rootScope, $location) {
 	
-	$rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
-		// We can prevent this state from completing
-		//evt.preventDefault();
-	    $rootScope.currentNavLink=$location.path();
-	});
+    $rootScope.$on('$routeChangeStart', function (event, next, current) {
+    	//console.log($location.path());
+    	//console.log(next.templateUrl +":"+current.templateUrl );
+    	//var currentNavLink = '/home';
+    	$rootScope.currentNavLink=$location.path();
+    });
 
 }]);
 

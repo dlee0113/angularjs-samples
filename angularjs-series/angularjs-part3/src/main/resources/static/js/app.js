@@ -1,15 +1,11 @@
 
-var myApp = angular.module('myApp',['restangular','ui.router','myApp.controllers','myApp.services']);
+var myApp = angular.module('myApp',['ngResource','ui.router','myApp.services']);
 
 myApp.config(function($stateProvider, $urlRouterProvider) {
 	
 	$urlRouterProvider.when('', '/home');
 	$urlRouterProvider.otherwise('/home');
-	/*
-        $urlRouterProvider.rule(function($injector, $location) {
-          return '/home';
-        });
-        */
+	
 	$stateProvider
 	.state('home', {
 		url: '/home',
@@ -19,54 +15,39 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
 	.state('contacts', {
 		url: '/contacts',
 		templateUrl: 'templates/contacts.html',
-                controller: 'ContactsController'
+        controller: 'ContactController'
 	})	
 	.state('todos', {
 		url: '/todos',
 		templateUrl: 'templates/todos.html',
-                controller: 'TodosController'
+        controller: 'TodoController'
 	})
-        
 	.state('todos.create', {
 		url: '/create',
-		templateUrl: 'new_todo.html'
-	})
-        .state('todos.edit', {
-		url: '/:id',
-		templateUrl: 'edit_todo1.html'
-                /*
-                ,resolve: {
-                    editTodoObj: function($stateParams, Restangular) {
-                        var Todos = Restangular.all('todos');
-                        
-                        console.log('$stateParams.id ->'+$stateParams.id);
-                        var  obj;
-                        if($stateParams.id){
-                           var currTodo = Todos.one($stateParams.id);
-                           obj = Restangular.copy(currTodo);
-                           console.log("=>"+obj);
-                        }
-                      return obj;
-                    }
-                }
-                */
-	})
+		templateUrl: 'templates/new_todo.html',
+		controller: function($scope, $stateParams, $resource) {
+			$scope.newTodo = {};
+			
+			$scope.createTodo = function(newTodoObj){
+				console.log('new Todo: '+newTodoObj.description);
+				$resource('todos').save(newTodoObj, function(data){
+					alert('Saved successfully');
+				},function(data){
+					alert('Failed to save Todo');
+				});
+			}
+		}
+	})	
 		
 });
 
-myApp.config(function($locationProvider, RestangularProvider) {
-	//Restangular.setBaseUrl(location.protocol + '//' + location.hostname + (location.port && ':' + location.port) + location.pathname);
-    RestangularProvider.setBaseUrl(location.pathname);
-    
-});
-
-myApp.run(['$rootScope', '$location','$state', function ($rootScope, $location, $state) {
+myApp.run(['$rootScope', '$location', function ($rootScope, $location) {
 	
 	$rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
 		// We can prevent this state from completing
 		//evt.preventDefault();
 	    $rootScope.currentNavLink=$location.path();
 	});
-       // $state.transitionTo('/');
+
 }]);
 

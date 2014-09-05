@@ -1,31 +1,12 @@
 angular.module('myApp.services',[])
 
-.factory('PersonService', function(Restangular){
-	var Contacts = Restangular.all('contacts');
-	
-	return {
-		getAll : function(){
-			return Contacts.getList().$object;
-		}
-	};
+.factory('ContactService', function($resource){
+	return $resource('contacts/:id');
 	
 })
 
-.factory('TodoService', function(Restangular){
-	var Todos = Restangular.all('todos');
-	return {
-		getAll : function(){
-			return Todos.getList().$object;
-		},
-                
-                create : function(todo){
-                    return Todos.post(todo);
-                },
-                
-                update : function(todo){
-                    return todo.put();
-                }
-	}
+.factory('TodoService', function($resource){
+	return $resource('todos/:id');
 })
 
 ;
