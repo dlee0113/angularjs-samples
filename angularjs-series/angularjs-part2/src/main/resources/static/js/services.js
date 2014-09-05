@@ -1,8 +1,7 @@
-angular.module('myApp.services',[])
+var myApp = angular.module('myApp')
 
-.factory('ContactService', function($http){
-	return {
-		getContacts : function(){
+myApp.service('ContactService', function($http){
+	this.getContacts = function(){
 			var promise = $http.get('contacts')
 								.then(function(response){
 									return response.data;
@@ -10,21 +9,22 @@ angular.module('myApp.services',[])
 									alert('error');
 								});
 			return promise;
-		}
-	}
-})
+		};
+});
 
-.factory('TodoService', function($http){
+myApp.factory('TodoService', function($http){
 	return {
-		getTodos : function(){
-			var promise = $http.get('todos')
-								.then(function(response){
-									return response.data;
-								},function(response){
-									alert('error');
-								});
-			return promise;
-		}
+		loadTodos : function(){
+			return $http.get('todos');
+		},
+		
+		createTodo: function(todo){
+			return $http.post('todos',todo);
+		},
+		
+		deleteTodo: function(id){
+			return $http.delete('todos/'+id);
+		}		
 	}
 })
 
