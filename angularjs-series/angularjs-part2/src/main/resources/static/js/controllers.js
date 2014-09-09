@@ -13,14 +13,7 @@ myApp.controller('ContactController', [ '$scope', 'ContactService', function ($s
 	
 	}
 ]);
-/*
-myApp.controller('TodoControllerL', [ '$scope', 'TodoService', function ($scope, TodoService) {
-	TodoService.getTodos().then(function(data) {
-		$scope.todos = data;
-	});
-	
-}]);
-*/
+
 myApp.controller('TodoController', [ '$scope', 'TodoService', function ($scope, TodoService) {
 	
 	$scope.newTodo = {};
