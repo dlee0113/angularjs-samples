@@ -24,7 +24,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
 	})
 	.state('todos.create', {
 		url: '/create',
-		templateUrl: 'templates/new_todo.html',
+		templateUrl: 'templates/newTodo.html',
 		controller: function($scope, $stateParams, $resource) {
 			$scope.newTodo = {};
 			
